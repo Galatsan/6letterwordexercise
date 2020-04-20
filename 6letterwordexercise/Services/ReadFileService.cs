@@ -10,8 +10,13 @@ namespace _6letterwordexercise.Services
     {
         public async Task<IEnumerable<string>> Read(string fileName)
         {
+            var fullFileName = AppContext.BaseDirectory + fileName;
+            if (!File.Exists(fullFileName))
+            {
+                throw new Exception($"File {fullFileName} doesn't exsist");
+            }
             var lines = new List<string>();
-            using (var reader = new StreamReader(AppContext.BaseDirectory + fileName))
+            using (var reader = new StreamReader(fullFileName))
             {
                 var content = await reader.ReadToEndAsync();
                 lines.AddRange(content.Split("\r\n", StringSplitOptions.RemoveEmptyEntries));
