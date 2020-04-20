@@ -7,20 +7,21 @@ namespace _6letterwordexercise.Services
 {
     public class SixLetterWordsFacade : ISixLetterWordsFacade
     {
-        private readonly IReadFileService readFileService;
-        private readonly IWriteFileService writeFileService;
+        private readonly IInputDataReadService inputDataReadService;
+        private readonly IOtputDataSaveService otputDataSaveService;
         private readonly IVariantsBuilderService variantsBuilderService;
         private readonly IPrepareOutputData prepareOutputData;
         private readonly Settings settings;
 
-        public SixLetterWordsFacade(IReadFileService readFileService,
-            IWriteFileService writeFileService,
+        public SixLetterWordsFacade(
+            IInputDataReadService inputDataReadService,
+            IOtputDataSaveService otputDataSaveService,
             IVariantsBuilderService variantsBuilderService,
             IPrepareOutputData prepareOutputData,
             IOptions<Settings> options)
         {
-            this.readFileService = readFileService;
-            this.writeFileService = writeFileService;
+            this.inputDataReadService = inputDataReadService;
+            this.otputDataSaveService = otputDataSaveService;
             this.variantsBuilderService = variantsBuilderService;
             this.prepareOutputData = prepareOutputData;
             settings = options.Value;
@@ -28,10 +29,10 @@ namespace _6letterwordexercise.Services
 
         public async Task Process()
         {
-            var lines = await readFileService.Read(settings.InputFile);
+            var lines = await inputDataReadService.Read();
             var variants = variantsBuilderService.GetVariants(lines, settings.CountOfWordsToConcat);
             var dataToSave = prepareOutputData.Prepare(variants, lines);
-            await writeFileService.Write(settings.OutputFile, dataToSave);
+            await otputDataSaveService.Save(dataToSave);
         }
     }
 }

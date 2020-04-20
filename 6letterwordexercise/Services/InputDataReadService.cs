@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using _6letterwordexercise.Interfaces;
+using _6letterwordexercise.Models;
+using Microsoft.Extensions.Options;
 
 namespace _6letterwordexercise.Services
 {
-    public class ReadFileService : IReadFileService
+    public class InputDataReadService : IInputDataReadService
     {
-        public async Task<IEnumerable<string>> Read(string fileName)
+        private readonly Settings settings;
+
+        public InputDataReadService(IOptions<Settings> options)
         {
-            var fullFileName = AppContext.BaseDirectory + fileName;
+            settings = options.Value;
+        }
+
+        public async Task<IEnumerable<string>> Read()
+        {
+            var fullFileName = AppContext.BaseDirectory + settings.InputFile;
             if (!File.Exists(fullFileName))
             {
                 throw new Exception($"File {fullFileName} doesn't exsist");

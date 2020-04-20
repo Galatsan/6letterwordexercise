@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using _6letterwordexercise.Interfaces;
+using _6letterwordexercise.Models;
+using Microsoft.Extensions.Options;
 
 namespace _6letterwordexercise.Services
 {
-    public class WriteFileService : IWriteFileService
+    public class OtputDataSaveService : IOtputDataSaveService
     {
-        public async Task Write(string fileName, IEnumerable<string> lines)
+        private readonly Settings settings;
+
+        public OtputDataSaveService(IOptions<Settings> options)
         {
-            var fullFileName = AppContext.BaseDirectory + fileName;
+            settings = options.Value;
+        }
+
+        public async Task Save(IEnumerable<string> lines)
+        {
+            var fullFileName = AppContext.BaseDirectory + settings.OutputFile;
             if (File.Exists(fullFileName))
             {
                 File.Delete(fullFileName);

@@ -4,7 +4,7 @@ using _6letterwordexercise.Extensions;
 
 namespace _6letterwordexercise
 {
-    public class EnumerableEqualityComparer : IEqualityComparer<IEnumerable<string>>
+    public class EnumerableStringComparer : IEqualityComparer<IEnumerable<string>>
     {
         public bool Equals([AllowNull] IEnumerable<string> x, [AllowNull] IEnumerable<string> y)
         {

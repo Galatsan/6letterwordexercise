@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using _6letterwordexercise.Interfaces;
@@ -38,11 +39,12 @@ namespace _6letterwordexercise
                 .Build();
 
             services.AddSingleton(configuration)
-            .AddTransient<IWriteFileService, WriteFileService>()
-            .AddTransient<IReadFileService, ReadFileService>()
+            .AddTransient<IOtputDataSaveService, OtputDataSaveService>()
+            .AddTransient<IInputDataReadService, InputDataReadService>()
             .AddTransient<IVariantsBuilderService, VariantsBuilderService>()
             .AddTransient<IPrepareOutputData, PrepareOutputData>()
             .AddTransient<ISixLetterWordsFacade, SixLetterWordsFacade>()
+            .AddTransient<IEqualityComparer<IEnumerable<string>>, EnumerableStringComparer>()
             .Configure<Settings>(configuration.GetSection("Settings"));
         }
     }

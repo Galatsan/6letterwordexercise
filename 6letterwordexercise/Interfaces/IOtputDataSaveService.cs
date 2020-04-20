@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace _6letterwordexercise.Interfaces
 {
-    public interface IReadFileService
+    public interface IOtputDataSaveService
     {
-        Task<IEnumerable<string>> Read(string fileName); 
+        Task Save(IEnumerable<string> lines);
     }
 }
