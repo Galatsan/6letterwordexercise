@@ -24,11 +24,11 @@ namespace _6letterwordexercise.Services
                 for (var n = 0; n < source.Count(); n++)
                 {
                     var subSourses = source.Take(n).Concat(source.Skip(n + 1).Take(source.Count() - n - 1));
-                    var subStrings = GetVariants(subSourses.ToList(), lengthOfVariant - 1);
-                    foreach (var suffix in subStrings)
+                    var subVariants = GetVariants(subSourses.ToList(), lengthOfVariant - 1);
+                    foreach (var subVariant in subVariants)
                     {
                         var variation = new List<string> { source.Skip(n).First() };
-                        yield return variation.Concat(suffix);
+                        yield return variation.Concat(subVariant);
                     }
                 }
             }
